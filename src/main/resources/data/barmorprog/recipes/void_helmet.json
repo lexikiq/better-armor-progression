@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "barmorprog:void_fragment"
+    }
+  },
+  "result": {
+    "item": "barmorprog:void_helmet",
+    "count": 1
+  }
+}

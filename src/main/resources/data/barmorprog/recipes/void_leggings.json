@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "barmorprog:void_fragment"
+    }
+  },
+  "result": {
+    "item": "barmorprog:void_leggings",
+    "count": 1
+  }
+}

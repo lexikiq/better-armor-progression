@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "barmorprog",
+  "version": "${version}",
+  "name": "Better Armor Progression",
+  "description": "New sets of armor with set bonuses to provide more progression routes and options",
+  "authors": [
+    "lexikiq"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/barmorprog/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.lexikiq.betterarmor.BArmorMod"
+    ],
+    "client": [],
+    "server": []
+  },
+  "mixins": [
+    "barmorprog.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.10.3",
+    "fabric": "*"
+  }
+}

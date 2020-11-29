@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "io.github.lexikiq.betterarmor.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "PlayerEntityMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
