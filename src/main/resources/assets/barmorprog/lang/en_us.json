@@ -1,9 +1,12 @@
 {
   "itemGroup.barmorprog.general": "Better Armor Progression",
+  "barmorprog.bonus": "Set Bonus:",
 
   "item.barmorprog.void_fragment": "Void Fragment",
   "item.barmorprog.void_helmet": "Void Helmet",
   "item.barmorprog.void_chestplate": "Void Chestplate",
   "item.barmorprog.void_leggings": "Void Leggings",
-  "item.barmorprog.void_boots": "Void Boots"
+  "item.barmorprog.void_boots": "Void Boots",
+
+  "item.barmorprog.void.tip1": "+%d reach"
 }

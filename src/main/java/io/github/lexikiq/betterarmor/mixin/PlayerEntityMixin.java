@@ -1,11 +1,11 @@
 package io.github.lexikiq.betterarmor.mixin;
 
+import io.github.lexikiq.betterarmor.ModArmorItem;
 import io.github.lexikiq.betterarmor.ModArmorMaterial;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -41,9 +41,8 @@ public abstract class PlayerEntityMixin extends Entity
     private @Nullable ModArmorMaterial getArmorMaterial() {
         ModArmorMaterial mat = null;
         for (ItemStack piece : this.inventory.armor) {
-            if (!(piece.getItem() instanceof ArmorItem)) {return null;}
-            ArmorItem item = (ArmorItem) piece.getItem();
-            if (!(item.getMaterial() instanceof ModArmorMaterial)) {return null;}
+            if (!(piece.getItem() instanceof ModArmorItem)) {return null;}
+            ModArmorItem item = (ModArmorItem) piece.getItem();
             ModArmorMaterial pieceMat = (ModArmorMaterial) item.getMaterial();
             if (mat == null) {mat = pieceMat;}
             else if (mat != pieceMat) {return null;}
