@@ -30,7 +30,9 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterial implements ArmorMaterial {
-	VOID("void", 30, new int[]{3, 6, 7, 2}, 9, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.5F, 0.0F, 0.0D, 1, 0, RegisterItems.VOID_FRAGMENT){
+	STONE("stone", 4, new int[]{1, 1, 2, 1}, 9, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, 0.0D, 0, 0, Items.STONE),
+
+	VOID("void", 30, new int[]{3, 6, 7, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.5F, 0.0F, 0.0D, 1, 0, RegisterItems.VOID_FRAGMENT){
 		final double range = 1.0;
 
 		@Override

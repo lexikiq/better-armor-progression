@@ -16,5 +16,10 @@
   "item.barmorprog.blaze_boots": "Blaze Boots",
   "item.barmorprog.blaze.set1": "• Fire Resistance",
   "item.barmorprog.blaze.set2": "• +%d%% increased ranged damage",
-  "item.barmorprog.blaze.piece1": "+%d%% chance to inflict fire every attack"
+  "item.barmorprog.blaze.piece1": "+%d%% chance to inflict fire every attack",
+
+  "item.barmorprog.stone_helmet": "Stone Helmet",
+  "item.barmorprog.stone_chestplate": "Stone Chestplate",
+  "item.barmorprog.stone_leggings": "Stone Leggings",
+  "item.barmorprog.stone_boots": "Stone Boots"
 }
