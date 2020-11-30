@@ -2,7 +2,6 @@ package io.github.lexikiq.betterarmor.mixin;
 
 import io.github.lexikiq.betterarmor.BArmorMod;
 import io.github.lexikiq.betterarmor.ModArmorMaterial;
-import lombok.Getter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
