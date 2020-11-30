@@ -9,12 +9,15 @@ import net.minecraft.util.registry.Registry;
 
 public class RegisterItems {
 	public static final Item VOID_FRAGMENT = new Item(new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
+	public static final Item VOID_HELMET = new ModArmorItem(ModArmorMaterial.VOID, EquipmentSlot.HEAD, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
+	public static final Item VOID_CHESTPLATE = new ModArmorItem(ModArmorMaterial.VOID, EquipmentSlot.CHEST, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
+	public static final Item VOID_LEGGINGS = new ModArmorItem(ModArmorMaterial.VOID, EquipmentSlot.LEGS, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
+	public static final Item VOID_BOOTS = new ModArmorItem(ModArmorMaterial.VOID, EquipmentSlot.FEET, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
 
-	public static final ArmorMaterial VOID_ARMOR_MATERIAL = ModArmorMaterial.VOID;
-	public static final Item VOID_HELMET = new ModArmorItem(VOID_ARMOR_MATERIAL, EquipmentSlot.HEAD, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
-	public static final Item VOID_CHESTPLATE = new ModArmorItem(VOID_ARMOR_MATERIAL, EquipmentSlot.CHEST, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
-	public static final Item VOID_LEGGINGS = new ModArmorItem(VOID_ARMOR_MATERIAL, EquipmentSlot.LEGS, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
-	public static final Item VOID_BOOTS = new ModArmorItem(VOID_ARMOR_MATERIAL, EquipmentSlot.FEET, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
+	public static final Item BLAZE_HELMET = new ModArmorItem(ModArmorMaterial.BLAZE, EquipmentSlot.HEAD, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
+	public static final Item BLAZE_CHESTPLATE = new ModArmorItem(ModArmorMaterial.BLAZE, EquipmentSlot.CHEST, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
+	public static final Item BLAZE_LEGGINGS = new ModArmorItem(ModArmorMaterial.BLAZE, EquipmentSlot.LEGS, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
+	public static final Item BLAZE_BOOTS = new ModArmorItem(ModArmorMaterial.BLAZE, EquipmentSlot.FEET, new FabricItemSettings().group(BArmorMod.BARMOR_GROUP));
 
 	public static void register(String namespace) {
 		Registry.register(Registry.ITEM, new Identifier(namespace, "void_fragment"), VOID_FRAGMENT);
@@ -22,5 +25,9 @@ public class RegisterItems {
 		Registry.register(Registry.ITEM, new Identifier(namespace, "void_chestplate"), VOID_CHESTPLATE);
 		Registry.register(Registry.ITEM, new Identifier(namespace, "void_leggings"), VOID_LEGGINGS);
 		Registry.register(Registry.ITEM, new Identifier(namespace, "void_boots"), VOID_BOOTS);
+		Registry.register(Registry.ITEM, new Identifier(namespace, "blaze_helmet"), BLAZE_HELMET);
+		Registry.register(Registry.ITEM, new Identifier(namespace, "blaze_chestplate"), BLAZE_CHESTPLATE);
+		Registry.register(Registry.ITEM, new Identifier(namespace, "blaze_leggings"), BLAZE_LEGGINGS);
+		Registry.register(Registry.ITEM, new Identifier(namespace, "blaze_boots"), BLAZE_BOOTS);
 	}
 }

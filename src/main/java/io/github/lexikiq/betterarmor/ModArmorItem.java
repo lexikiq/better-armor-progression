@@ -22,6 +22,6 @@ public class ModArmorItem extends ArmorItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.addAll(((ModArmorMaterial) this.type).getTooltips());
+        tooltip.addAll(((ModArmorMaterial) type).getTooltips(slot));
     }
 }

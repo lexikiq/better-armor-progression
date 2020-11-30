@@ -1,12 +1,20 @@
 {
   "itemGroup.barmorprog.general": "Better Armor Progression",
-  "barmorprog.bonus": "Set Bonus:",
+  "barmorprog.set": "Set Bonus:",
+  "barmorprog.piece": "Piece Bonus:",
 
   "item.barmorprog.void_fragment": "Void Fragment",
   "item.barmorprog.void_helmet": "Void Helmet",
   "item.barmorprog.void_chestplate": "Void Chestplate",
   "item.barmorprog.void_leggings": "Void Leggings",
   "item.barmorprog.void_boots": "Void Boots",
+  "item.barmorprog.void.set1": "+%d reach",
 
-  "item.barmorprog.void.tip1": "+%d reach"
+  "item.barmorprog.blaze_helmet": "Blaze Helmet",
+  "item.barmorprog.blaze_chestplate": "Blaze Chestplate",
+  "item.barmorprog.blaze_leggings": "Blaze Leggings",
+  "item.barmorprog.blaze_boots": "Blaze Boots",
+  "item.barmorprog.blaze.set1": "• Fire Resistance",
+  "item.barmorprog.blaze.set2": "• +%d%% increased ranged damage",
+  "item.barmorprog.blaze.piece1": "+%d%% chance to inflict fire every attack"
 }

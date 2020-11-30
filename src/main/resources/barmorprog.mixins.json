@@ -3,6 +3,7 @@
   "package": "io.github.lexikiq.betterarmor.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ArrowEntityMixin",
     "PlayerEntityMixin"
   ],
   "client": [],
