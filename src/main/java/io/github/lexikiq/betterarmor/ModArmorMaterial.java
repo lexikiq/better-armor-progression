@@ -72,7 +72,7 @@ public enum ModArmorMaterial implements ArmorMaterial {
 	// todo: crafting ingredient
 	MARROW("marrow", 30, new int[]{3, 6, 7, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0F, 0.0F, 0.25D, 1, 0, Items.BONE, false, false),
 
-	VOID("void", 30, new int[]{3, 6, 7, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.5F, 0.0F, 0.0D, 1, 0, RegisterItems.VOID_FRAGMENT.getItem(), false, true){
+	VOID("void", 30, new int[]{3, 6, 7, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.5F, 0.0F, 0.0D, 2, 0, RegisterItems.VOID_FRAGMENT.getItem(), false, true){
 		final double range = 1.0;
 
 		@Override
