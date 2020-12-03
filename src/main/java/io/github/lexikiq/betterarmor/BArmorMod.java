@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -15,10 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BArmorMod implements ModInitializer {
 
@@ -29,16 +27,17 @@ public class BArmorMod implements ModInitializer {
 
     public static final ItemGroup BARMOR_GROUP = FabricItemGroupBuilder.create(
             new Identifier(MOD_ID, "general"))
-            .icon(() -> new ItemStack(RegisterItems.VOID_FRAGMENT))
+            .icon(() -> new ItemStack(RegisterItems.VOID_FRAGMENT.getItem()))
             //.appendItems(stacks -> {
-            //    stacks.add(new ItemStack(RegisterItems.END_FRAGMENT));
+            //    stacks.add(new ItemStack(RegisterItems.END_FRAGMENT.getItem()));
             //})
             .build();
 
     @Override
     public void onInitialize() {
         log(Level.INFO, "Initializing");
-        RegisterItems.register(MOD_ID);
+        Arrays.stream(RegisterItems.values()).forEach(RegisterItems::register); // register normal items
+        RegisterArmorItems.register();
 
         // attack listener
         AttackEntityCallback.EVENT.register(((playerEntity, world, hand, entity, entityHitResult) -> {
@@ -47,8 +46,11 @@ public class BArmorMod implements ModInitializer {
         }));
     }
 
-    public static Map<ModArmorMaterial, List<EquipmentSlot>> getModdedArmor(PlayerEntity playerEntity) {
+    public static Map<ModArmorMaterial, List<EquipmentSlot>> getModdedArmor(LivingEntity livingEntity) {
         Map<ModArmorMaterial, List<EquipmentSlot>> armor = new HashMap<>();
+        if (!(livingEntity instanceof PlayerEntity)) {return armor;}
+
+        PlayerEntity playerEntity = (PlayerEntity) livingEntity;
         for (ItemStack stack : playerEntity.inventory.armor) {
             if (stack.getItem() instanceof ModArmorItem) {
                 ModArmorItem item = (ModArmorItem) stack.getItem();

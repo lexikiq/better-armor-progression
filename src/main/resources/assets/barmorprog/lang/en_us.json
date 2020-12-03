@@ -9,6 +9,7 @@
   "item.barmorprog.void_leggings": "Void Leggings",
   "item.barmorprog.void_boots": "Void Boots",
   "item.barmorprog.void.set1": "+%d reach",
+  "item.barmorprog.void.set2": "Removes Ender Pearl damage",
 
   "item.barmorprog.blaze_helmet": "Blaze Helmet",
   "item.barmorprog.blaze_chestplate": "Blaze Chestplate",
@@ -21,5 +22,20 @@
   "item.barmorprog.stone_helmet": "Stone Helmet",
   "item.barmorprog.stone_chestplate": "Stone Chestplate",
   "item.barmorprog.stone_leggings": "Stone Leggings",
-  "item.barmorprog.stone_boots": "Stone Boots"
+  "item.barmorprog.stone_boots": "Stone Boots",
+
+  "item.barmorprog.necro_dust": "Necro Dust",
+  "item.barmorprog.withering_helmet": "Wither Helmet",
+  "item.barmorprog.withering_chestplate": "Wither Chestplate",
+  "item.barmorprog.withering_leggings": "Wither Leggings",
+  "item.barmorprog.withering_boots": "Wither Boots",
+  "item.barmorprog.withering.set1": "• %d%% chance to inflict %ds of Wither %s",
+  "item.barmorprog.withering.set2": "• +%d%% increased ranged damage",
+  "item.barmorprog.withering.piece1": "+%d%% chance to inflict %ss of Wither %s",
+
+  "item.barmorprog.obsidian_helmet": "Obsidian Helmet",
+  "item.barmorprog.obsidian_chestplate": "Obsidian Chestplate",
+  "item.barmorprog.obsidian_leggings": "Obsidian Leggings",
+  "item.barmorprog.obsidian_boots": "Obsidian Boots",
+  "item.barmorprog.obsidian.piece1": "+1 level of Slowness"
 }

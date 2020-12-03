@@ -25,5 +25,8 @@
   "depends": {
     "fabricloader": ">=0.10.3",
     "fabric": "*"
+  },
+  "recommends": {
+    "overloadedarmorbar": ">=5.0.0-fabric"
   }
 }
