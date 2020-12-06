@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,6 +27,8 @@ import java.util.Set;
 public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccess {
     @Shadow public abstract boolean isCreative();
 
+    @Shadow public abstract void sendMessage(Text message, boolean actionBar);
+
     private ModArmorMaterial armorSet = null;
     private Set<ModArmorMaterial> prevMats = new HashSet<>();
     private Vec3d lastPos = this.getPos();
@@ -33,6 +36,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     private static final int MANA_MAX = 100;
     private static final int MANA_REFILL_TICKS = Time.SECOND.of(0.2);
     private int manaTicks = 0;
+    private int lastUsedMana = 0;
+    private int lastMoved = 0;
+    private static final int MANA_MAX_LAST_USED = Time.SECOND.of(5);
+    private static final int MAX_LAST_MOVED = Time.SECOND.of(5);
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -45,6 +52,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         }
         if (this.mana >= mana) {
             this.mana -= mana;
+            lastUsedMana = 0;
             return true;
         }
         return false;
@@ -53,12 +61,38 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Inject(at = @At("HEAD"), method = "tick")
     private void tick(CallbackInfo ci) {
         if (!this.world.isClient) {
+            // mana tick
             ++manaTicks;
-            if (manaTicks >= MANA_REFILL_TICKS) {
-                manaTicks = 0;
-                mana = Math.min(mana+1, MANA_MAX);
+
+            double addMana = 1;
+            if (lastUsedMana < MANA_MAX_LAST_USED) {
+                ++lastUsedMana;
+            } else {
+                addMana *= 2;
+            }
+            if (isSneaking()) {
+                addMana *= 1.5;
             }
 
+            Vec3d currentPos = this.getPos();
+            boolean playerMoved = currentPos != lastPos && lastPos != null;
+            lastPos = currentPos;
+            if (playerMoved) {
+                lastMoved = 0;
+            } else if (lastMoved < MAX_LAST_MOVED) {
+                ++lastMoved;
+            } else {
+                addMana *= 1.5;
+            }
+
+            if (manaTicks >= MANA_REFILL_TICKS) {
+                manaTicks = 0;
+                mana = Math.min(mana+(int)addMana, MANA_MAX);
+            }
+
+            this.sendMessage(Text.of(String.format("M: %d | used: %d | moved: %d | sneak: %s | mult: %f", mana, lastUsedMana, lastMoved, isSneaking(), addMana)), true);
+
+            // armor ticks
             Map<ModArmorMaterial, List<EquipmentSlot>> allMat = BArmorMod.getModdedArmor(this);
             ModArmorMaterial newMat = null;
 
@@ -85,14 +119,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
                 }
                 armorSet = newMat;
             }
-            Vec3d currentPos = this.getPos();
             if (armorSet != null) {
                 armorSet.armorTick(this.world, this);
-                if (lastPos != currentPos && !this.isSneaky()) {
+                if (playerMoved && !this.isSneaky()) {
                     armorSet.movementTick(this.world, this);
                 }
             }
-            lastPos = currentPos;
         }
     }
 }
