@@ -1,0 +1,1 @@
+{"type": "minecraft:crafting_shaped", "pattern": ["X X", "XXX", "XXX"], "key": {"X": {"item": "minecraft:honeycomb"}}, "result": {"item": "barmorprog:bee_chestplate", "count": 1}}

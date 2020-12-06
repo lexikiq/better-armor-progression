@@ -1,5 +1,6 @@
-package io.github.lexikiq.betterarmor;
+package io.github.lexikiq.betterarmor.items;
 
+import io.github.lexikiq.betterarmor.ModArmorMaterial;
 import lombok.Getter;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
@@ -13,7 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class ModArmorItem extends ArmorItem {
-    public final @Getter ModArmorMaterial moddedMaterial;
+    public final @Getter
+    ModArmorMaterial moddedMaterial;
 
     public ModArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);

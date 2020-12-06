@@ -9,6 +9,7 @@ classes/
 *.iml
 *.ipr
 *.iws
+venv/
 
 #vscode
 .settings/

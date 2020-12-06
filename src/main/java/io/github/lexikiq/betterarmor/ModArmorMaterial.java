@@ -1,5 +1,9 @@
 package io.github.lexikiq.betterarmor;
 
+import io.github.lexikiq.betterarmor.access.PlayerEntityAccess;
+import io.github.lexikiq.betterarmor.entity.BeenadeEntity;
+import io.github.lexikiq.betterarmor.entity.ModEntityType;
+import io.github.lexikiq.betterarmor.items.RegisterItems;
 import io.github.lexikiq.betterarmor.utils.PlayerUtils;
 import io.github.lexikiq.betterarmor.utils.Time;
 import lombok.Getter;
@@ -8,13 +12,16 @@ import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
@@ -35,10 +42,10 @@ public enum ModArmorMaterial implements ArmorMaterial {
 	STONE("stone", 4, new int[]{1, 1, 2, 1}, 9, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, 0.0D, 0, 0, Items.STONE, false, false),
 
 	BLAZE("blaze", 15, new int[]{1, 4, 5, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, 0.1D, 2, 1, Items.BLAZE_POWDER, false, false){
-		private final double fireChance = 0.005; // .5%
+		private static final double FIRE_CHANCE = 0.005; // .5%
 		private final Random rand = new Random();
 
-		private double getFireChance(EquipmentSlot slot) {return fireChance*(double)getIngredients(slot);}
+		private double getFireChance(EquipmentSlot slot) {return FIRE_CHANCE *(double)getIngredients(slot);}
 
 		@Override
 		public void armorTick(World world, Entity entity, int armorCount) {
@@ -69,15 +76,36 @@ public enum ModArmorMaterial implements ArmorMaterial {
 		}
 	},
 
-	// todo: crafting ingredient
-	MARROW("marrow", 30, new int[]{3, 6, 7, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0F, 0.0F, 0.25D, 1, 0, Items.BONE, false, false),
+	BEE("bee", 12, new int[]{1, 3, 4, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, 0D, 2, 0, Items.HONEYCOMB, false, false){
+		final static int MANA_COST = 20;
+
+		@Override
+		public boolean useSpecial(PlayerEntity playerEntity) {
+			if (useMana(playerEntity, MANA_COST)) {
+				BeenadeEntity beenade = new BeenadeEntity(ModEntityType.BEENADE, playerEntity.world);
+				beenade.initialize(((ServerWorld) playerEntity.world), playerEntity.world.getLocalDifficulty(playerEntity.getBlockPos()), SpawnReason.EVENT, null, null);
+				beenade.initialize(playerEntity);
+				playerEntity.world.spawnEntity(beenade);
+				return true;
+			}
+			return false;
+		}
+	},
+
+	MARROW("marrow", 30, new int[]{3, 6, 7, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.0F, 0.0F, 0.25D, 1, 0, RegisterItems.MARROW.getItem(), false, false){
+		@Override
+		public MutableText getTooltip(int n, EquipmentSlot slot, boolean isSetBonus, Object... args) {
+			if (n == 1 && isSetBonus) { args=new Object[]{(int) ((rangedMultiplier-1)*100)}; }
+			return super.getTooltip(n, slot, isSetBonus, args);
+		}
+	},
 
 	VOID("void", 30, new int[]{3, 6, 7, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 0.5F, 0.0F, 0.0D, 2, 0, RegisterItems.VOID_FRAGMENT.getItem(), false, true){
-		final double range = 1.0;
+		final static double RANGE = 1.0;
 
 		@Override
 		public void armorTick(World world, Entity entity, int count) {
-			PlayerUtils.setRange((LivingEntity) entity, range);
+			PlayerUtils.setRange((LivingEntity) entity, RANGE);
 		}
 
 		@Override
@@ -88,13 +116,14 @@ public enum ModArmorMaterial implements ArmorMaterial {
 		@Override
 		public MutableText getTooltip(int n, EquipmentSlot slot, boolean isSetBonus, Object ... args) {
 			if (n == 1 && isSetBonus) {
-				args = new Object[]{range};
+				args = new Object[]{RANGE};
 			}
 			return super.getTooltip(n, slot, isSetBonus, args);
 		}
 	},
 
-	OBSIDIAN("obsidian", 48, new int[]{4,9,10,5}, 9, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 3.0F, 0.175F, 0, 0, 1, Items.OBSIDIAN, true, false) {
+	OBSIDIAN("obsidian", 48, new int[]{4,9,10,5}, 9, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3.0F, 0.175F, 0, 0, 1, Items.OBSIDIAN, true, false) {
+		// TODO: obsidiamond
 		@Override
 		public void armorTick(World world, Entity entity, int count) {
 			StatusEffectInstance effect = new StatusEffectInstance(StatusEffects.SLOWNESS, 8, count-1, false, false);
@@ -103,21 +132,20 @@ public enum ModArmorMaterial implements ArmorMaterial {
 		}
 	},
 
-	// TODO: better repair ingredient than NETHER_STAR (create new wither drop item)
 	WITHERING("withering", 45, new int[]{4, 8, 9, 5}, 18, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.0F, 0.25F, 0.5D, 2, 1, RegisterItems.NECRO_DUST.getItem(), false, false){
-		private final double witherChance = 0.01; // 1%
-		private final double witherSeconds = 5;
-		private final int witherAmplifier = 1;
+		private static final double WITHER_CHANCE = 0.01; // 1%
+		private static final double WITHER_SECONDS = 5;
+		private static final int WITHER_AMPLIFIER = 1;
 		private final Random rand = new Random();
 
 		private double getWitherChance(EquipmentSlot slot) {return getWitherChance(getIngredients(slot));}
-		private double getWitherChance(double multiplier) {return witherChance*multiplier;}
+		private double getWitherChance(double multiplier) {return WITHER_CHANCE *multiplier;}
 
 		@Override
 		public MutableText getTooltip(int n, EquipmentSlot slot, boolean isSetBonus, Object... args) {
-			if (n == 1 && isSetBonus) { args=new Object[]{DF.format(100*Arrays.stream(INGREDIENTS).mapToDouble(this::getWitherChance).sum()), witherSeconds-1, witherAmplifier+2}; }
+			if (n == 1 && isSetBonus) { args=new Object[]{DF.format(100*Arrays.stream(INGREDIENTS).mapToDouble(this::getWitherChance).sum()), WITHER_SECONDS -1, WITHER_AMPLIFIER +2}; }
 			if (n == 2 && isSetBonus) { args=new Object[]{(int) ((rangedMultiplier-1)*100)}; }
-			else if (n == 1 && !isSetBonus) { args=new Object[]{DF.format(100*getWitherChance(slot)), witherSeconds, witherAmplifier+1}; }
+			else if (n == 1 && !isSetBonus) { args=new Object[]{DF.format(100*getWitherChance(slot)), WITHER_SECONDS, WITHER_AMPLIFIER +1}; }
 			return super.getTooltip(n, slot, isSetBonus, args);
 		}
 
@@ -127,8 +155,8 @@ public enum ModArmorMaterial implements ArmorMaterial {
 
 			double chance = slots.stream().map(this::getWitherChance).mapToDouble(f -> f).sum();
 			boolean isFullSet = slots.size() == 4;
-			int amplifier = witherAmplifier + (isFullSet ? 1 : 0);
-			int duration = Time.SECOND.of(witherSeconds - (isFullSet ? 1 : 0));
+			int amplifier = WITHER_AMPLIFIER + (isFullSet ? 1 : 0);
+			int duration = Time.SECOND.of(WITHER_SECONDS - (isFullSet ? 1 : 0));
 			if (rand.nextDouble() <= chance) {
 				StatusEffectInstance effect = new StatusEffectInstance(StatusEffects.WITHER, duration, amplifier, false, false);
 				((LivingEntity) entity).addStatusEffect(effect);
@@ -139,7 +167,7 @@ public enum ModArmorMaterial implements ArmorMaterial {
 
 	protected static final int[] INGREDIENTS = new int[]{4, 7, 8, 5};
 	protected static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
-	private static final DecimalFormat DF = new DecimalFormat("0.0");
+	protected static final DecimalFormat DF = new DecimalFormat("0.0");
 	protected final @Getter @Environment(EnvType.CLIENT) String name;
 	protected final int durabilityMultiplier;
 	protected final int[] protectionAmounts;
@@ -208,6 +236,20 @@ public enum ModArmorMaterial implements ArmorMaterial {
 	public void noArmorTick(World world, Entity entity) {}
 
 	public void attackEntity(Entity entity, List<EquipmentSlot> armorCount) {}
+
+	protected boolean useMana(PlayerEntity playerEntity, int manaCost) {
+		PlayerEntityAccess playerEntityAccess = (PlayerEntityAccess) playerEntity;
+		if (playerEntityAccess.useMana(manaCost)) {
+			return true;
+		} else {
+			playerEntity.sendMessage(new TranslatableText(BArmorMod.MOD_ID+".mana_cooldown", manaCost, playerEntityAccess.getMana()), true);
+			return false;
+		}
+	}
+
+	public boolean useSpecial(PlayerEntity entity) {
+		return false;
+	}
 
 	public MutableText getTooltip(int n, EquipmentSlot slot, boolean isSetBonus, Object ... args) {
 		String key = isSetBonus ? "set" : "piece";

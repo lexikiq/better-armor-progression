@@ -16,7 +16,9 @@
     "main": [
       "io.github.lexikiq.betterarmor.BArmorMod"
     ],
-    "client": [],
+    "client": [
+      "io.github.lexikiq.betterarmor.BArmorModClient"
+    ],
     "server": []
   },
   "mixins": [

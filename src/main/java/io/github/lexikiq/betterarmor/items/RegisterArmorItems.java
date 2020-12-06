@@ -1,5 +1,7 @@
-package io.github.lexikiq.betterarmor;
+package io.github.lexikiq.betterarmor.items;
 
+import io.github.lexikiq.betterarmor.BArmorMod;
+import io.github.lexikiq.betterarmor.ModArmorMaterial;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.Identifier;
