@@ -94,11 +94,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
             ModArmorMaterial newMat = null;
 
             // run partial ticks and get full set
-            for (Map.Entry mapElement : allMat.entrySet()) {
-                ModArmorMaterial localMat = (ModArmorMaterial) mapElement.getKey();
-                List<EquipmentSlot> localVals = (List<EquipmentSlot>) mapElement.getValue();
+            for (Map.Entry<ModArmorMaterial, List<EquipmentSlot>> mapElement : allMat.entrySet()) {
+                ModArmorMaterial localMat = mapElement.getKey();
+                List<EquipmentSlot> localVals = mapElement.getValue();
                 if (localVals.size() == 4) {
-                    newMat = (ModArmorMaterial) mapElement.getKey();
+                    newMat = localMat;
                 } else if (localMat.allowsPartialSet()) {
                     localMat.armorTick(this.world, this, localVals.size());
                 }
