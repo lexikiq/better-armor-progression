@@ -29,8 +29,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     private ModArmorMaterial armorSet = null;
     private Set<ModArmorMaterial> prevMats = new HashSet<>();
     private Vec3d lastPos = this.getPos();
-    private @Getter int mana = 9999;
     private static final int MANA_MAX = 100;
+    private @Getter int mana = MANA_MAX;
     private static final int MANA_REFILL_TICKS = Time.SECOND.of(0.2);
     private int manaTicks = 0;
     private int lastUsedMana = 0;
