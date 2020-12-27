@@ -90,7 +90,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
                 mana = Math.min(mana+(int)addMana, MANA_MAX);
             }
 
-            this.sendMessage(Text.of(String.format("M: %d | used: %d | moved: %d | sneak: %s | mult: %f", mana, lastUsedMana, lastMoved, isSneaking(), addMana)), true);
+//            this.sendMessage(Text.of(String.format("M: %d | used: %d | moved: %d | sneak: %s | mult: %f", mana, lastUsedMana, lastMoved, isSneaking(), addMana)), true);
 
             // armor ticks
             Map<ModArmorMaterial, List<EquipmentSlot>> allMat = BArmorMod.getModdedArmor(this);
