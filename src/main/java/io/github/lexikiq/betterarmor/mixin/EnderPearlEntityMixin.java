@@ -23,7 +23,7 @@ public abstract class EnderPearlEntityMixin extends ThrownEntity {
     private void onCollisionApplyDamage(CallbackInfo ci) {
         ServerPlayerEntity owner = (ServerPlayerEntity) this.getOwner();
         ModArmorMaterial mat = BArmorMod.getPlayerMaterial(owner);
-        if (mat != null && mat.blocksPearlDamage()) {
+        if (mat != null && mat.noPearlDamage()) {
             this.remove();
             ci.cancel();
         }

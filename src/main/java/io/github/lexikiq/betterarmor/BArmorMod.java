@@ -2,12 +2,13 @@ package io.github.lexikiq.betterarmor;
 
 import io.github.lexikiq.betterarmor.entity.RegisterEntities;
 import io.github.lexikiq.betterarmor.items.ModArmorItem;
-import io.github.lexikiq.betterarmor.items.RegisterArmorItems;
 import io.github.lexikiq.betterarmor.items.RegisterItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.kyori.adventure.platform.fabric.FabricServerAudiences;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,11 +23,26 @@ import net.minecraft.util.TypedActionResult;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class BArmorMod implements ModInitializer {
+
+    private static FabricServerAudiences adventure;
+
+    public static @NotNull FabricServerAudiences adventure() throws IllegalStateException {
+        if(adventure == null) {
+            throw new IllegalStateException("Tried to access Adventure without a running server!");
+        }
+        return adventure;
+    }
 
     public static Logger LOGGER = LogManager.getLogger();
 
@@ -35,7 +51,7 @@ public class BArmorMod implements ModInitializer {
 
     public static final ItemGroup BARMOR_GROUP = FabricItemGroupBuilder.create(
             new Identifier(MOD_ID, "general"))
-            .icon(() -> new ItemStack(RegisterItems.VOID_FRAGMENT.getItem()))
+            .icon(() -> new ItemStack(RegisterItems.VOID_FRAGMENT))
             //.appendItems(stacks -> {
             //    stacks.add(new ItemStack(RegisterItems.END_FRAGMENT.getItem()));
             //})
@@ -45,9 +61,13 @@ public class BArmorMod implements ModInitializer {
     public void onInitialize() {
         log(Level.INFO, "Initializing");
 
+        // register adventure
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> adventure = FabricServerAudiences.of(server));
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> adventure = null);
+
         // registries
         Arrays.stream(RegisterItems.values()).forEach(RegisterItems::register); // register normal items
-        RegisterArmorItems.register(); // armor items
+        new RegisterArmorItems().register(); // armor items
 
         // entity registries
         Arrays.stream(RegisterEntities.values()).forEach(RegisterEntities::registerAttributes);
@@ -86,7 +106,7 @@ public class BArmorMod implements ModInitializer {
         for (ItemStack stack : playerEntity.inventory.armor) {
             if (stack.getItem() instanceof ModArmorItem) {
                 ModArmorItem item = (ModArmorItem) stack.getItem();
-                ModArmorMaterial mat = item.getModdedMaterial();
+                ModArmorMaterial mat = item.getMaterial();
                 List<EquipmentSlot> equips = armor.getOrDefault(mat, new ArrayList<>());
                 equips.add(item.getSlotType());
                 armor.put(mat, equips);

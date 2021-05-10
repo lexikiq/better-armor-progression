@@ -99,14 +99,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
                 List<EquipmentSlot> localVals = mapElement.getValue();
                 if (localVals.size() == 4) {
                     newMat = localMat;
-                } else if (localMat.allowsPartialSet()) {
+                } else if (localMat.isPartialSet()) {
                     localMat.armorTick(this.world, this, localVals.size());
                 }
             }
 
             // run noArmorTicks for partial sets
             Set<ModArmorMaterial> matList = allMat.keySet();
-            prevMats.stream().filter(x -> !matList.contains(x) && x.allowsPartialSet()).forEach(x -> x.noArmorTick(this.world, this));
+            prevMats.stream().filter(x -> !matList.contains(x) && x.isPartialSet()).forEach(x -> x.noArmorTick(this.world, this));
             prevMats = matList;
 
             // process full sets

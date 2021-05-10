@@ -15,6 +15,11 @@ minecraft {
 
 repositories {
 	maven {url "https://maven.jamieswhiteshirt.com/libs-release/"}
+	maven {
+		name = "sonatype-oss-snapshots"
+		url = "https://oss.sonatype.org/content/repositories/snapshots/"
+	}
+	mavenCentral()
 }
 
 dependencies {
@@ -33,6 +38,12 @@ dependencies {
 
 	testCompileOnly 'org.projectlombok:lombok:1.18.16'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+	modImplementation "net.kyori:adventure-platform-fabric:4.0.0-SNAPSHOT"
+	modImplementation "ca.stellardrift:colonel:0.2"
+
+	// https://mvnrepository.com/artifact/org.reflections/reflections
+	implementation group: 'org.reflections', name: 'reflections', version: '0.9.10'
 }
 
 processResources {
@@ -46,6 +57,8 @@ processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		exclude "fabric.mod.json"
 	}
+
+	duplicatesStrategy(DuplicatesStrategy.INCLUDE)
 }
 
 // ensure that the encoding is set to UTF-8, no matter what the system default is
