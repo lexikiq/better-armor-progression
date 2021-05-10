@@ -26,10 +26,9 @@ public class MarrowArmor extends ModArmorMaterial {
 		return "marrow";
 	}
 
-	// TODO: these values are leftovers
 	@Override
 	public int getDurabilityMultiplier() {
-		return 30;
+		return 20;
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class MarrowArmor extends ModArmorMaterial {
 
 	@Override
 	public SoundEvent getEquipSound() {
-		return SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND;
+		return SoundEvents.ITEM_ARMOR_EQUIP_IRON;
 	}
 
 	@Override
