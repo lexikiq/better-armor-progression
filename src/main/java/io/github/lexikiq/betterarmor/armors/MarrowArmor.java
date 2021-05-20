@@ -13,7 +13,7 @@ import net.minecraft.text.MutableText;
 @Getter
 @NoArgsConstructor
 public class MarrowArmor extends ModArmorMaterial {
-	private final int[] protectionAmounts = new int[]{3, 6, 7, 2};
+	private final int[] protectionAmounts = new int[]{2, 6, 7, 2};
 
 	@Override
 	public MutableText getTooltip(int n, EquipmentSlot slot, boolean isSetBonus, Object... args) {
